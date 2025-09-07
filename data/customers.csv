@@ -1,0 +1,21 @@
+customer_id,customer_name,customer_type,contact_email,location
+1,Customer 1,Clinic,customer1@example.com,Nairobi
+2,Customer 2,Hospital,customer2@example.com,Accra
+3,Customer 3,Pharmacy,customer3@example.com,Abuja
+4,Customer 4,Hospital,customer4@example.com,Nairobi
+5,Customer 5,Clinic,customer5@example.com,Nairobi
+6,Customer 6,Hospital,customer6@example.com,Nairobi
+7,Customer 7,Hospital,customer7@example.com,Kinshasa
+8,Customer 8,Pharmacy,customer8@example.com,Pretoria
+9,Customer 9,Clinic,customer9@example.com,Accra
+10,Customer 10,Clinic,customer10@example.com,Pretoria
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,

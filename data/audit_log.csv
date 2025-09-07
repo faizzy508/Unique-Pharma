@@ -1,0 +1,73 @@
+timestamp,user,action,details
+2025-09-05 11:56:39.188014,admin,Add Row,Added new row to inventory
+2025-09-05 11:56:39.850847,admin,Add Row,Added new row to inventory
+2025-09-05 11:56:44.952916,admin,Add Row,Added new row to inventory
+2025-09-05 12:10:15.576063,admin,Login,User logged in
+2025-09-05 12:10:56.280239,admin,Add Row,Added new row to consumables
+2025-09-05 12:17:22.758876,admin,Login,User logged in
+2025-09-05 12:23:03.527011,admin,Login,User logged in
+2025-09-05 12:23:47.999189,admin,Logout,User logged out
+2025-09-05 12:24:14.725719,admin,Login,User logged in
+2025-09-05 12:24:42.706084,admin,Login,User logged in
+2025-09-05 12:33:54.854770,admin,Login,User logged in
+2025-09-05 12:44:06.603265,admin,Login,User logged in
+2025-09-05 12:51:20.918722,admin,Login,User logged in
+2025-09-05 12:54:28.562972,admin,Login,User logged in
+2025-09-05 12:59:08.648460,admin,Login,User logged in
+2025-09-05 14:04:40.667538,admin,Login,User logged in
+2025-09-05 14:04:53.920596,admin,Login,User logged in
+2025-09-05 14:05:17.385714,admin,Logout,User logged out
+2025-09-05 14:05:19.028278,admin,Login,User logged in
+2025-09-05 14:05:22.402647,admin,Add Row,Added new row to inventory
+2025-09-05 14:10:09.103426,admin,Login,User logged in
+2025-09-05 14:14:01.342670,admin,Login,User logged in
+2025-09-05 14:18:10.732061,admin,Login,User logged in
+2025-09-05 14:22:41.614463,admin,Login,User logged in
+2025-09-05 14:32:49.963991,admin,Login,User logged in
+2025-09-05 14:35:01.172642,admin,Login,User logged in
+2025-09-05 14:40:16.006831,admin,Login,User logged in
+2025-09-05 15:29:42.732814,admin,Login,User logged in with role: admin
+2025-09-05 15:30:14.574217,admin,Login,User logged in with role: admin
+2025-09-05 15:32:26.269888,admin,Login,User logged in with role: admin
+2025-09-05 15:50:42.899422,admin,Login,User logged in with role: admin
+2025-09-05 16:40:41.101351,admin,Login,User logged in with role: admin
+2025-09-05 16:43:27.649624,admin,Login,User logged in with role: admin
+2025-09-05 17:13:22.899448,admin,Login,User logged in with role: admin
+2025-09-05 17:14:41.090542,admin,Send Alert Emails,Simulated sending alert emails
+2025-09-05 17:15:27.707721,admin,Add Row,Added new row to inventory
+2025-09-05 17:15:30.149860,admin,Add Row,Added new row to inventory
+2025-09-05 17:15:44.637719,admin,Export PDF,Exported inventory to PDF
+2025-09-05 17:44:10.299113,admin,Login,User logged in with role: admin
+2025-09-05 17:51:45.101218,admin,Login,User logged in with role: admin
+2025-09-05 18:13:18.958372,admin,Login,User logged in with role: admin
+2025-09-06 10:03:18.887039,admin,Login,User logged in with role: admin
+2025-09-06 10:29:02.894773,admin,Login,User logged in with role: admin
+2025-09-06 10:36:49.916271,admin,Login,User logged in with role: admin
+2025-09-06 10:51:25.087149,admin,Login,User logged in with role: admin
+2025-09-06 11:55:11.042544,admin,Login,User logged in with role: admin
+2025-09-06 12:22:42.126496,admin,Login,User logged in with role: admin
+2025-09-06 14:17:35.169115,admin,Login,User logged in with role: admin
+2025-09-06 15:29:20.363129,admin,Login,User logged in with role: admin
+2025-09-06 15:33:03.964277,admin,Login,User logged in with role: admin
+2025-09-06 15:39:39.095733,admin,Login,User logged in with role: admin
+2025-09-06 17:41:43.663779,admin,Login,User logged in with role: admin
+2025-09-06 18:14:59.329754,admin,Login,User logged in with role: admin
+2025-09-07 10:23:14.632054,admin,Login,User logged in with role: admin
+2025-09-07 10:34:48.803187,admin,Login,User logged in with role: admin
+2025-09-07 13:51:27.741182,admin,Login,User logged in with role: admin
+2025-09-07 14:52:15.257345,admin,Login,User logged in with role: admin
+2025-09-07 14:53:05.576253,admin,Send Alert Emails,Simulated sending alert emails
+2025-09-07 15:15:11.478459,admin,Login,Successful login
+2025-09-07 15:29:42.642924,admin,Login,Successful login
+2025-09-07 16:11:10.779808,admin,Login,User logged in with role: admin
+2025-09-07 16:19:49.478288,admin,Login,User logged in with role: admin
+2025-09-07 16:28:16.588584,admin,Login,Successful login
+2025-09-07 16:30:48.542918,admin,Login,User logged in with role: admin
+2025-09-07 16:31:25.326930,admin,Export PDF,Exported analytics to PDF
+2025-09-07 16:32:36.363124,admin,Export Full Report,Exported full report to C:\Users\User\Desktop\New folder\reports\full_report_20250907_163236.pdf
+2025-09-07 16:36:23.972527,admin,Login,Successful login
+2025-09-07 16:44:06.420662,admin,Login,Successful login
+2025-09-07 17:29:57.625298,admin ,Login Attempt,Failed login attempt
+2025-09-07 17:30:27.590980,admin,Login Attempt,Failed login attempt
+2025-09-07 17:32:39.357502,admin,Login Attempt,Failed login attempt
+2025-09-07 17:40:06.556037,admin,Login,Successful login

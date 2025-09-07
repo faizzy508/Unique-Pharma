@@ -1,0 +1,166 @@
+2025-09-07 17:24:07,028 - ERROR - File not found: [Errno 2] No such file or directory: 'C:\\Users\\User\\Desktop\\Unique-Pharma\\data\\inventory.csv'
+2025-09-07 17:24:18,218 - ERROR - File not found: [Errno 2] No such file or directory: 'C:\\Users\\User\\Desktop\\Unique-Pharma\\data\\inventory.csv'
+2025-09-07 17:29:43,587 - INFO - Dash is running on http://127.0.0.1:8050/
+
+2025-09-07 17:29:43,598 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8050
+2025-09-07 17:29:43,598 - INFO - [33mPress CTRL+C to quit[0m
+2025-09-07 17:29:46,940 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:46] "GET / HTTP/1.1" 200 -
+2025-09-07 17:29:46,985 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:46] "[33mGET /assets/custom.css HTTP/1.1[0m" 404 -
+2025-09-07 17:29:46,988 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:46] "GET /_dash-component-suites/dash/deps/polyfill@7.v3_2_0m1756998303.12.1.min.js HTTP/1.1" 200 -
+2025-09-07 17:29:46,995 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:46] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v2_0_4m1756998308.min.js HTTP/1.1" 200 -
+2025-09-07 17:29:47,000 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:47] "GET /assets/bWLwgP.css?m=1757247540.9310296 HTTP/1.1" 200 -
+2025-09-07 17:29:47,001 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:47] "GET /_dash-component-suites/dash/dcc/dash_core_components.v3_2_0m1756998303.js HTTP/1.1" 200 -
+2025-09-07 17:29:47,004 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:47] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v3_2_0m1756998303.js HTTP/1.1" 200 -
+2025-09-07 17:29:47,011 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:47] "GET /_dash-component-suites/dash/html/dash_html_components.v3_0_4m1756998303.min.js HTTP/1.1" 200 -
+2025-09-07 17:29:47,013 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:47] "GET /_dash-component-suites/dash/dash_table/bundle.v6_0_4m1756998303.js HTTP/1.1" 200 -
+2025-09-07 17:29:47,016 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:47] "GET /_dash-component-suites/dash/deps/prop-types@15.v3_2_0m1756998303.8.1.min.js HTTP/1.1" 200 -
+2025-09-07 17:29:47,017 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:47] "GET /_dash-component-suites/dash/deps/react@18.v3_2_0m1756998303.3.1.min.js HTTP/1.1" 200 -
+2025-09-07 17:29:47,074 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:47] "GET /_dash-component-suites/dash/deps/react-dom@18.v3_2_0m1756998303.3.1.min.js HTTP/1.1" 200 -
+2025-09-07 17:29:47,117 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:47] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v3_2_0m1756998303.min.js HTTP/1.1" 200 -
+2025-09-07 17:29:49,649 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:49] "GET /_dash-layout HTTP/1.1" 200 -
+2025-09-07 17:29:49,651 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:49] "GET /_dash-dependencies HTTP/1.1" 200 -
+2025-09-07 17:29:49,654 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:49] "GET /_favicon.ico?v=3.2.0 HTTP/1.1" 200 -
+2025-09-07 17:29:49,669 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:49] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:29:49,681 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:49] "[35m[1mPOST /_dash-update-component HTTP/1.1[0m" 204 -
+2025-09-07 17:29:49,688 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:49] "GET /assets/Uniquesarl_Logo.png HTTP/1.1" 200 -
+2025-09-07 17:29:57,631 - WARNING - Failed login attempt for admin 
+2025-09-07 17:29:57,633 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:57] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:29:57,641 - INFO - 127.0.0.1 - - [07/Sep/2025 17:29:57] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:00,560 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:00] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:00,570 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:00] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:01,275 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:01] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:01,287 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:01] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:12,819 - INFO - Dash is running on http://127.0.0.1:8050/
+
+2025-09-07 17:30:12,830 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8050
+2025-09-07 17:30:12,830 - INFO - [33mPress CTRL+C to quit[0m
+2025-09-07 17:30:14,207 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:14] "GET / HTTP/1.1" 200 -
+2025-09-07 17:30:14,287 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:14] "[33mGET /assets/custom.css HTTP/1.1[0m" 404 -
+2025-09-07 17:30:14,289 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:14] "GET /assets/bWLwgP.css?m=1757247540.9310296 HTTP/1.1" 200 -
+2025-09-07 17:30:14,289 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:14] "GET /_dash-component-suites/dash/deps/polyfill@7.v3_2_0m1756998303.12.1.min.js HTTP/1.1" 200 -
+2025-09-07 17:30:14,291 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:14] "GET /_dash-component-suites/dash/deps/react@18.v3_2_0m1756998303.3.1.min.js HTTP/1.1" 200 -
+2025-09-07 17:30:14,292 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:14] "GET /_dash-component-suites/dash/deps/react-dom@18.v3_2_0m1756998303.3.1.min.js HTTP/1.1" 200 -
+2025-09-07 17:30:14,296 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:14] "GET /_dash-component-suites/dash/deps/prop-types@15.v3_2_0m1756998303.8.1.min.js HTTP/1.1" 200 -
+2025-09-07 17:30:14,296 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:14] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v2_0_4m1756998308.min.js HTTP/1.1" 200 -
+2025-09-07 17:30:14,298 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:14] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v3_2_0m1756998303.min.js HTTP/1.1" 200 -
+2025-09-07 17:30:14,299 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:14] "GET /_dash-component-suites/dash/dcc/dash_core_components.v3_2_0m1756998303.js HTTP/1.1" 200 -
+2025-09-07 17:30:14,300 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:14] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v3_2_0m1756998303.js HTTP/1.1" 200 -
+2025-09-07 17:30:14,301 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:14] "GET /_dash-component-suites/dash/html/dash_html_components.v3_0_4m1756998303.min.js HTTP/1.1" 200 -
+2025-09-07 17:30:14,303 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:14] "GET /_dash-component-suites/dash/dash_table/bundle.v6_0_4m1756998303.js HTTP/1.1" 200 -
+2025-09-07 17:30:17,115 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:17] "GET /_dash-layout HTTP/1.1" 200 -
+2025-09-07 17:30:17,117 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:17] "GET /_dash-dependencies HTTP/1.1" 200 -
+2025-09-07 17:30:17,120 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:17] "GET /_favicon.ico?v=3.2.0 HTTP/1.1" 200 -
+2025-09-07 17:30:17,140 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:17] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:17,149 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:17] "GET /assets/Uniquesarl_Logo.png HTTP/1.1" 200 -
+2025-09-07 17:30:17,152 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:17] "[35m[1mPOST /_dash-update-component HTTP/1.1[0m" 204 -
+2025-09-07 17:30:27,606 - WARNING - Failed login attempt for admin
+2025-09-07 17:30:27,607 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:27] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:27,617 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:27] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:28,377 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:28] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:28,387 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:28] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:28,888 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:28] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:28,896 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:28] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:29,225 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:29] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:29,235 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:29] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:29,921 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:29] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:29,931 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:29] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:30,475 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:30] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:30,485 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:30] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:52,878 - INFO - Dash is running on http://127.0.0.1:8050/
+
+2025-09-07 17:30:52,887 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8050
+2025-09-07 17:30:52,887 - INFO - [33mPress CTRL+C to quit[0m
+2025-09-07 17:30:54,252 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:54] "GET / HTTP/1.1" 200 -
+2025-09-07 17:30:54,334 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:54] "[33mGET /assets/custom.css HTTP/1.1[0m" 404 -
+2025-09-07 17:30:54,335 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:54] "GET /assets/bWLwgP.css?m=1757247540.9310296 HTTP/1.1" 200 -
+2025-09-07 17:30:54,337 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:54] "GET /_dash-component-suites/dash/deps/polyfill@7.v3_2_0m1756998303.12.1.min.js HTTP/1.1" 200 -
+2025-09-07 17:30:54,339 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:54] "GET /_dash-component-suites/dash/deps/react@18.v3_2_0m1756998303.3.1.min.js HTTP/1.1" 200 -
+2025-09-07 17:30:54,341 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:54] "GET /_dash-component-suites/dash/deps/react-dom@18.v3_2_0m1756998303.3.1.min.js HTTP/1.1" 200 -
+2025-09-07 17:30:54,345 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:54] "GET /_dash-component-suites/dash/deps/prop-types@15.v3_2_0m1756998303.8.1.min.js HTTP/1.1" 200 -
+2025-09-07 17:30:54,345 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:54] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v2_0_4m1756998308.min.js HTTP/1.1" 200 -
+2025-09-07 17:30:54,347 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:54] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v3_2_0m1756998303.min.js HTTP/1.1" 200 -
+2025-09-07 17:30:54,349 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:54] "GET /_dash-component-suites/dash/dcc/dash_core_components.v3_2_0m1756998303.js HTTP/1.1" 200 -
+2025-09-07 17:30:54,353 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:54] "GET /_dash-component-suites/dash/html/dash_html_components.v3_0_4m1756998303.min.js HTTP/1.1" 200 -
+2025-09-07 17:30:54,353 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:54] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v3_2_0m1756998303.js HTTP/1.1" 200 -
+2025-09-07 17:30:54,354 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:54] "GET /_dash-component-suites/dash/dash_table/bundle.v6_0_4m1756998303.js HTTP/1.1" 200 -
+2025-09-07 17:30:56,736 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:56] "GET /_dash-layout HTTP/1.1" 200 -
+2025-09-07 17:30:56,737 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:56] "GET /_dash-dependencies HTTP/1.1" 200 -
+2025-09-07 17:30:56,740 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:56] "GET /_favicon.ico?v=3.2.0 HTTP/1.1" 200 -
+2025-09-07 17:30:56,753 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:56] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:30:56,763 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:56] "GET /assets/Uniquesarl_Logo.png HTTP/1.1" 200 -
+2025-09-07 17:30:56,767 - INFO - 127.0.0.1 - - [07/Sep/2025 17:30:56] "[35m[1mPOST /_dash-update-component HTTP/1.1[0m" 204 -
+2025-09-07 17:32:26,981 - INFO - Dash is running on http://127.0.0.1:8050/
+
+2025-09-07 17:32:26,993 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8050
+2025-09-07 17:32:26,993 - INFO - [33mPress CTRL+C to quit[0m
+2025-09-07 17:32:28,593 - INFO - 127.0.0.1 - - [07/Sep/2025 17:32:28] "GET / HTTP/1.1" 200 -
+2025-09-07 17:32:28,640 - INFO - 127.0.0.1 - - [07/Sep/2025 17:32:28] "[33mGET /assets/custom.css HTTP/1.1[0m" 404 -
+2025-09-07 17:32:28,640 - INFO - 127.0.0.1 - - [07/Sep/2025 17:32:28] "[36mGET /assets/bWLwgP.css?m=1757247540.9310296 HTTP/1.1[0m" 304 -
+2025-09-07 17:32:28,709 - INFO - 127.0.0.1 - - [07/Sep/2025 17:32:28] "GET /_dash-layout HTTP/1.1" 200 -
+2025-09-07 17:32:28,710 - INFO - 127.0.0.1 - - [07/Sep/2025 17:32:28] "GET /_dash-dependencies HTTP/1.1" 200 -
+2025-09-07 17:32:28,724 - INFO - 127.0.0.1 - - [07/Sep/2025 17:32:28] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:32:28,731 - INFO - 127.0.0.1 - - [07/Sep/2025 17:32:28] "[36mGET /assets/Uniquesarl_Logo.png HTTP/1.1[0m" 304 -
+2025-09-07 17:32:28,734 - INFO - 127.0.0.1 - - [07/Sep/2025 17:32:28] "[35m[1mPOST /_dash-update-component HTTP/1.1[0m" 204 -
+2025-09-07 17:32:39,363 - WARNING - Failed login attempt for admin
+2025-09-07 17:32:39,364 - INFO - 127.0.0.1 - - [07/Sep/2025 17:32:39] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:32:39,374 - INFO - 127.0.0.1 - - [07/Sep/2025 17:32:39] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:32:40,488 - INFO - 127.0.0.1 - - [07/Sep/2025 17:32:40] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:32:40,498 - INFO - 127.0.0.1 - - [07/Sep/2025 17:32:40] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:32:41,004 - INFO - 127.0.0.1 - - [07/Sep/2025 17:32:41] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:32:41,011 - INFO - 127.0.0.1 - - [07/Sep/2025 17:32:41] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:32:41,272 - INFO - 127.0.0.1 - - [07/Sep/2025 17:32:41] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:32:41,281 - INFO - 127.0.0.1 - - [07/Sep/2025 17:32:41] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:39:46,786 - INFO - Dash is running on http://127.0.0.1:8050/
+
+2025-09-07 17:39:46,795 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8050
+2025-09-07 17:39:46,795 - INFO - [33mPress CTRL+C to quit[0m
+2025-09-07 17:39:54,261 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:54] "GET / HTTP/1.1" 200 -
+2025-09-07 17:39:54,273 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:54] "[33mGET /assets/custom.css HTTP/1.1[0m" 404 -
+2025-09-07 17:39:54,274 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:54] "GET /assets/bWLwgP.css?m=1757247540.9310296 HTTP/1.1" 200 -
+2025-09-07 17:39:54,274 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:54] "GET /_dash-component-suites/dash/deps/polyfill@7.v3_2_0m1756998303.12.1.min.js HTTP/1.1" 200 -
+2025-09-07 17:39:54,278 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:54] "GET /_dash-component-suites/dash/deps/react@18.v3_2_0m1756998303.3.1.min.js HTTP/1.1" 200 -
+2025-09-07 17:39:54,278 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:54] "GET /_dash-component-suites/dash/deps/react-dom@18.v3_2_0m1756998303.3.1.min.js HTTP/1.1" 200 -
+2025-09-07 17:39:54,281 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:54] "GET /_dash-component-suites/dash/deps/prop-types@15.v3_2_0m1756998303.8.1.min.js HTTP/1.1" 200 -
+2025-09-07 17:39:54,285 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:54] "GET /_dash-component-suites/dash_bootstrap_components/_components/dash_bootstrap_components.v2_0_4m1756998308.min.js HTTP/1.1" 200 -
+2025-09-07 17:39:54,290 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:54] "GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v3_2_0m1756998303.min.js HTTP/1.1" 200 -
+2025-09-07 17:39:54,294 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:54] "GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v3_2_0m1756998303.js HTTP/1.1" 200 -
+2025-09-07 17:39:54,294 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:54] "GET /_dash-component-suites/dash/dcc/dash_core_components.v3_2_0m1756998303.js HTTP/1.1" 200 -
+2025-09-07 17:39:54,296 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:54] "GET /_dash-component-suites/dash/dash_table/bundle.v6_0_4m1756998303.js HTTP/1.1" 200 -
+2025-09-07 17:39:54,297 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:54] "GET /_dash-component-suites/dash/html/dash_html_components.v3_0_4m1756998303.min.js HTTP/1.1" 200 -
+2025-09-07 17:39:59,035 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:59] "GET /_dash-layout HTTP/1.1" 200 -
+2025-09-07 17:39:59,036 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:59] "GET /_dash-dependencies HTTP/1.1" 200 -
+2025-09-07 17:39:59,039 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:59] "GET /_favicon.ico?v=3.2.0 HTTP/1.1" 200 -
+2025-09-07 17:39:59,051 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:59] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:39:59,061 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:59] "GET /assets/Uniquesarl_Logo.png HTTP/1.1" 200 -
+2025-09-07 17:39:59,062 - INFO - 127.0.0.1 - - [07/Sep/2025 17:39:59] "[35m[1mPOST /_dash-update-component HTTP/1.1[0m" 204 -
+2025-09-07 17:40:06,559 - INFO - User admin logged in successfully
+2025-09-07 17:40:06,560 - INFO - 127.0.0.1 - - [07/Sep/2025 17:40:06] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:40:06,576 - INFO - 127.0.0.1 - - [07/Sep/2025 17:40:06] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:40:06,585 - INFO - 127.0.0.1 - - [07/Sep/2025 17:40:06] "GET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1" 200 -
+2025-09-07 17:40:06,593 - INFO - 127.0.0.1 - - [07/Sep/2025 17:40:06] "GET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1" 200 -
+2025-09-07 17:40:06,597 - INFO - 127.0.0.1 - - [07/Sep/2025 17:40:06] "GET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1" 200 -
+2025-09-07 17:40:06,607 - INFO - 127.0.0.1 - - [07/Sep/2025 17:40:06] "[35m[1mPOST /_dash-update-component HTTP/1.1[0m" 204 -
+2025-09-07 17:40:06,608 - INFO - 127.0.0.1 - - [07/Sep/2025 17:40:06] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:40:06,627 - INFO - 127.0.0.1 - - [07/Sep/2025 17:40:06] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:40:06,631 - INFO - 127.0.0.1 - - [07/Sep/2025 17:40:06] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:40:06,708 - INFO - 127.0.0.1 - - [07/Sep/2025 17:40:06] "GET /_dash-component-suites/dash/dcc/async-markdown.js HTTP/1.1" 200 -
+2025-09-07 17:40:06,719 - INFO - 127.0.0.1 - - [07/Sep/2025 17:40:06] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:40:06,728 - INFO - 127.0.0.1 - - [07/Sep/2025 17:40:06] "GET /_dash-component-suites/dash/dcc/async-highlight.js HTTP/1.1" 200 -
+2025-09-07 17:40:07,013 - ERROR - Forecasting error: Neither `start` nor `end` can be NaT
+2025-09-07 17:40:07,015 - ERROR - Forecasting error: Neither `start` nor `end` can be NaT
+2025-09-07 17:40:07,018 - ERROR - Forecasting error: Neither `start` nor `end` can be NaT
+2025-09-07 17:40:07,034 - ERROR - Forecasting error: Neither `start` nor `end` can be NaT
+2025-09-07 17:40:07,040 - ERROR - Forecasting error: Neither `start` nor `end` can be NaT
+2025-09-07 17:40:07,055 - ERROR - Forecasting error: Neither `start` nor `end` can be NaT
+2025-09-07 17:40:07,057 - ERROR - Forecasting error: Neither `start` nor `end` can be NaT
+2025-09-07 17:40:07,060 - ERROR - Forecasting error: Neither `start` nor `end` can be NaT
+2025-09-07 17:40:07,066 - ERROR - Forecasting error: Neither `start` nor `end` can be NaT
+2025-09-07 17:40:07,072 - ERROR - Forecasting error: Neither `start` nor `end` can be NaT
+2025-09-07 17:40:08,048 - INFO - 127.0.0.1 - - [07/Sep/2025 17:40:08] "POST /_dash-update-component HTTP/1.1" 200 -
+2025-09-07 17:40:17,012 - INFO - 127.0.0.1 - - [07/Sep/2025 17:40:17] "GET /_dash-component-suites/dash/dash_table/async-highlight.js HTTP/1.1" 200 -
+2025-09-07 17:40:17,014 - INFO - 127.0.0.1 - - [07/Sep/2025 17:40:17] "GET /_dash-component-suites/dash/dash_table/async-table.js HTTP/1.1" 200 -

@@ -1,0 +1,8 @@
+dash==2.17.1  # Or latest version
+dash-bootstrap-components==1.6.0
+plotly==5.22.0
+pandas==2.2.2
+numpy==1.26.4
+scikit-learn==1.5.0
+fpdf==1.7.2
+gunicorn==22.0.0  # For serving the app
