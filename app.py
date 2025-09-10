@@ -26,16 +26,15 @@ logging.basicConfig(
 )
 
 # Define file paths
-# Use os.getcwd() to dynamically get the project's root directory,
-# ensuring compatibility with any environment (local or server like Render).
 BASE_PATH = os.getcwd() 
-INVENTORY_PATH = os.path.join(BASE_PATH, "inventory.csv")
-CONSUMABLES_PATH = os.path.join(BASE_PATH, "consumables.csv")
-HISTORY_PATH = os.path.join(BASE_PATH, "history.csv")
-SUPPLIERS_PATH = os.path.join(BASE_PATH, "suppliers.csv")
-USERS_PATH = os.path.join(BASE_PATH, "users.csv")
-AUDIT_PATH = os.path.join(BASE_PATH, "audit_log.csv")
-SHIPMENTS_PATH = os.path.join(BASE_PATH, "shipments.csv")
+DATA_PATH = os.path.join(BASE_PATH, "data") # Add this line to define the data directory
+INVENTORY_PATH = os.path.join(DATA_PATH, "inventory.csv")
+CONSUMABLES_PATH = os.path.join(DATA_PATH, "consumables.csv")
+HISTORY_PATH = os.path.join(DATA_PATH, "history.csv")
+SUPPLIERS_PATH = os.path.join(DATA_PATH, "suppliers.csv")
+USERS_PATH = os.path.join(DATA_PATH, "users.csv")
+AUDIT_PATH = os.path.join(DATA_PATH, "audit_log.csv")
+SHIPMENTS_PATH = os.path.join(DATA_PATH, "shipments.csv")
 REPORTS_PATH = os.path.join(BASE_PATH, "reports")
 
 if not os.path.exists(REPORTS_PATH):
