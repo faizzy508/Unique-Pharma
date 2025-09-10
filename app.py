@@ -16,10 +16,9 @@ import base64
 from io import BytesIO
 from statsmodels.tsa.arima.model import ARIMA
 
-# Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    filename=os.path.join(r"C:\Users\User\Desktop\New folder", "dashboard.log"),
+    filename='dashboard.log',
     filemode='a',
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
