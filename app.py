@@ -24,7 +24,7 @@ logging.basicConfig(
 )
 
 # Define file paths
-BASE_PATH = r"C:\Users\User\Desktop\New folder"
+BASE_PATH = os.path.join(os.path.dirname(__file__), "data")
 INVENTORY_PATH = os.path.join(BASE_PATH, "inventory.csv")
 CONSUMABLES_PATH = os.path.join(BASE_PATH, "consumables.csv")
 HISTORY_PATH = os.path.join(BASE_PATH, "history.csv")
@@ -32,7 +32,8 @@ SUPPLIERS_PATH = os.path.join(BASE_PATH, "suppliers.csv")
 USERS_PATH = os.path.join(BASE_PATH, "users.csv")
 AUDIT_PATH = os.path.join(BASE_PATH, "audit_log.csv")
 SHIPMENTS_PATH = os.path.join(BASE_PATH, "shipments.csv")
-REPORTS_PATH = os.path.join(BASE_PATH, "reports")
+REPORTS_PATH = os.path.join(os.path.dirname(__file__), "reports")
+
 
 if not os.path.exists(REPORTS_PATH):
     os.makedirs(REPORTS_PATH)
