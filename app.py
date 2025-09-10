@@ -16,6 +16,8 @@ import base64
 from io import BytesIO
 from statsmodels.tsa.arima.model import ARIMA
 
+# Configure logging
+# Use a relative path so the log file is created in the project's root directory
 logging.basicConfig(
     level=logging.INFO,
     filename='dashboard.log',
@@ -24,7 +26,9 @@ logging.basicConfig(
 )
 
 # Define file paths
-BASE_PATH = os.path.join(os.path.dirname(__file__), "data")
+# Use os.getcwd() to dynamically get the project's root directory,
+# ensuring compatibility with any environment (local or server like Render).
+BASE_PATH = os.getcwd() 
 INVENTORY_PATH = os.path.join(BASE_PATH, "inventory.csv")
 CONSUMABLES_PATH = os.path.join(BASE_PATH, "consumables.csv")
 HISTORY_PATH = os.path.join(BASE_PATH, "history.csv")
@@ -32,8 +36,7 @@ SUPPLIERS_PATH = os.path.join(BASE_PATH, "suppliers.csv")
 USERS_PATH = os.path.join(BASE_PATH, "users.csv")
 AUDIT_PATH = os.path.join(BASE_PATH, "audit_log.csv")
 SHIPMENTS_PATH = os.path.join(BASE_PATH, "shipments.csv")
-REPORTS_PATH = os.path.join(os.path.dirname(__file__), "reports")
-
+REPORTS_PATH = os.path.join(BASE_PATH, "reports")
 
 if not os.path.exists(REPORTS_PATH):
     os.makedirs(REPORTS_PATH)
@@ -145,8 +148,8 @@ try:
     df_inventory['dsi'] = np.where(df_inventory['avg_daily_sales'] > 0, df_inventory['quantity'] / df_inventory['avg_daily_sales'], np.inf)
     
     # Service Level
-    stockouts = df_history[df_history['quantity'] == 0].groupby('drug_name').size().reset_index(name='stockouts')
-    total_demands = df_history.groupby('drug_name').size().reset_index(name='total_demands')
+    stockouts = df_history[df_history['quantity'] == 0].groupby('drug_name')['quantity'].count().reset_index(name='stockouts')
+    total_demands = df_history.groupby('drug_name')['quantity'].count().reset_index(name='total_demands')
     service_df = pd.merge(stockouts, total_demands, on='drug_name', how='left').fillna(0)
     service_df['service_level'] = 1 - (service_df['stockouts'] / service_df['total_demands'])
     
@@ -346,8 +349,8 @@ df_inventory = df_inventory.merge(turnover_df[['drug_name', 'turnover_rate']], o
 df_inventory['turnover_rate'] = df_inventory['turnover_rate'].fillna(0)
 
 # Calculate stockout frequency and merge it with df_inventory
-stockout_counts = df_history[df_history['quantity'] == 0].groupby('drug_name').size().reset_index(name='stockout_count')
-total_periods = df_history.groupby('drug_name').size().reset_index(name='total_periods')
+stockout_counts = df_history[df_history['quantity'] == 0].groupby('drug_name')['quantity'].count().reset_index(name='stockout_count')
+total_periods = df_history.groupby('drug_name')['quantity'].count().reset_index(name='total_periods')
 stockout_freq = pd.merge(stockout_counts, total_periods, on='drug_name', how='right').fillna(0)
 stockout_freq['stockout_frequency'] = stockout_freq['stockout_count'] / stockout_freq['total_periods']
 df_inventory = df_inventory.merge(stockout_freq[['drug_name', 'stockout_frequency']], on='drug_name', how='left')
@@ -380,6 +383,10 @@ app = dash.Dash(__name__, external_stylesheets=[
     "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css",
     "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
 ], suppress_callback_exceptions=True)
+
+# Gunicorn needs a 'server' variable to find the Flask application instance
+# We explicitly assign it here for clarity and compatibility
+server = app.server
 
 # PDF Class (unchanged)
 class PDF(FPDF):
@@ -1343,7 +1350,6 @@ def update_analytics_charts(change_percent, theme, n_intervals, categories, drug
 
     return (eoq_data, eoq_bar_chart, stock_age_box, turnover_bar, dead_stock_bar, dead_stock_table_data, aging_heatmap_analytics, service_level_bar, sales_trend_fig, what_if_output, aging_table_data)
 
-
 # THIS IS THE NEW CALLBACK TO FIX THE ERROR
 # We create a new, separate callback specifically for the advanced metrics table
 # that triggers when the user navigates to the Inventory Management page.
@@ -1374,7 +1380,7 @@ def update_advanced_metrics_table_on_page_change(pathname, filter_data):
         metrics_data['carrying_cost_percent'] = metrics_data['carrying_cost_percent'].round(1)
         
         return metrics_data.to_dict('records')
-    return [] # Return an empty list if not on the correct page
+    raise PreventUpdate
 
 
 # Update Health Score and Advanced Metrics (MODIFIED)
