@@ -395,6 +395,8 @@ app = dash.Dash(__name__, external_stylesheets=[
     "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
 ], suppress_callback_exceptions=True)
 
+server = app.server
+
 # PDF Class (unchanged)
 class PDF(FPDF):
     def header(self):
