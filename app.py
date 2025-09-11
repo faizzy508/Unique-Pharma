@@ -36,7 +36,7 @@ USERS_PATH = os.path.join(DATA_PATH, "users.csv")
 AUDIT_PATH = os.path.join(DATA_PATH, "audit_log.csv")
 SHIPMENTS_PATH = os.path.join(DATA_PATH, "shipments.csv")
 REPORTS_PATH = os.path.join(BASE_PATH, "reports")
-SALES_PATH = os.path.join(BASE_PATH, "sales.csv")
+SALES_PATH = os.path.join(DATA_PATH, "sales.csv")
 
 if not os.path.exists(REPORTS_PATH):
     os.makedirs(REPORTS_PATH)
