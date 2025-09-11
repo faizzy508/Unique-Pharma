@@ -49,6 +49,7 @@ try:
     df_users = pd.read_csv(USERS_PATH)
     audit_log = pd.DataFrame(columns=['timestamp', 'user', 'action', 'details']) if not os.path.exists(AUDIT_PATH) else pd.read_csv(AUDIT_PATH)
     df_shipments = pd.read_csv(SHIPMENTS_PATH)
+    df_sales = pd.read_csv(SALES_PATH)
 except FileNotFoundError as e:
     logging.error(f"File not found: {e}")
     print(f"ALERT: Missing CSV file: {e}. Please ensure all required files are in the specified directory.")
@@ -144,11 +145,11 @@ try:
     # Then, fill other numeric columns with 0
     df_inventory = df_inventory.fillna({'avg_daily_sales': 0, 'safety_stock': 0, 'reorder_point': 0, 'total_value': 0, 'stock_age_days': 0})
     
-    df_inventory['dsi'] = np.where(df_inventory['avg_daily_sales'] > 0, df_inventory['quantity'] / df_inventory['avg_daily_sales'], np.inf)
+    df_inventory['dsi'] = np.where(df_inventory['average_daily_demand'] > 0, df_inventory['quantity'] / df_inventory['average_daily_demand'], np.inf)
     
     # Service Level
-    stockouts = df_history[df_history['quantity'] == 0].groupby('drug_name')['quantity'].count().reset_index(name='stockouts')
-    total_demands = df_history.groupby('drug_name')['quantity'].count().reset_index(name='total_demands')
+    stockouts = df_history[df_history['quantity'] == 0].groupby('drug_name').size().reset_index(name='stockouts')
+    total_demands = df_history.groupby('drug_name').size().reset_index(name='total_demands')
     service_df = pd.merge(stockouts, total_demands, on='drug_name', how='left').fillna(0)
     service_df['service_level'] = 1 - (service_df['stockouts'] / service_df['total_demands'])
     
@@ -175,6 +176,12 @@ try:
     df_history['date'] = pd.to_datetime(df_history['date'], format='%Y-%m-%d', errors='coerce')
     df_shipments['order_date'] = pd.to_datetime(df_shipments['order_date'], errors='coerce')
     df_shipments['expected_arrival'] = pd.to_datetime(df_shipments['expected_arrival'], errors='coerce')
+    
+    # --- Sales Data Processing ---
+    df_sales['sale_date'] = pd.to_datetime(df_sales['sale_date'], format='%d/%m/%Y', errors='coerce')
+    df_sales['quantity_sold'] = pd.to_numeric(df_sales['quantity_sold'], errors='coerce').fillna(0)
+    df_sales['sale_amount'] = pd.to_numeric(df_sales['sale_amount'], errors='coerce').fillna(0)
+    df_sales['total_sales_amount'] = df_sales['quantity_sold'] * df_sales['sale_amount']
     
     # Low stock threshold
     LOW_STOCK_THRESHOLD = 1000
@@ -348,8 +355,8 @@ df_inventory = df_inventory.merge(turnover_df[['drug_name', 'turnover_rate']], o
 df_inventory['turnover_rate'] = df_inventory['turnover_rate'].fillna(0)
 
 # Calculate stockout frequency and merge it with df_inventory
-stockout_counts = df_history[df_history['quantity'] == 0].groupby('drug_name')['quantity'].count().reset_index(name='stockout_count')
-total_periods = df_history.groupby('drug_name')['quantity'].count().reset_index(name='total_periods')
+stockout_counts = df_history[df_history['quantity'] == 0].groupby('drug_name').size().reset_index(name='stockout_count')
+total_periods = df_history.groupby('drug_name').size().reset_index(name='total_periods')
 stockout_freq = pd.merge(stockout_counts, total_periods, on='drug_name', how='right').fillna(0)
 stockout_freq['stockout_frequency'] = stockout_freq['stockout_count'] / stockout_freq['total_periods']
 df_inventory = df_inventory.merge(stockout_freq[['drug_name', 'stockout_frequency']], on='drug_name', how='left')
@@ -374,6 +381,10 @@ avg_dsi = df_inventory['dsi'].mean()
 total_carrying_cost = df_inventory['carrying_cost'].sum()
 avg_service_level = df_inventory['service_level'].mean() * 100
 num_overstock_risk = df_inventory[df_inventory['overstock_risk'] == 'High Risk'].shape[0]
+total_sales_value = df_sales['sale_amount'].sum()
+avg_sales_per_day = df_sales.groupby('sale_date')['sale_amount'].sum().mean()
+num_pharmacy_sales = df_sales[df_sales['customer_type'] == 'Pharmacy'].shape[0]
+
 
 # Dash App Setup
 app = dash.Dash(__name__, external_stylesheets=[
@@ -382,10 +393,6 @@ app = dash.Dash(__name__, external_stylesheets=[
     "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css",
     "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
 ], suppress_callback_exceptions=True)
-
-# Gunicorn needs a 'server' variable to find the Flask application instance
-# We explicitly assign it here for clarity and compatibility
-server = app.server
 
 # PDF Class (unchanged)
 class PDF(FPDF):
@@ -477,6 +484,7 @@ sidebar = html.Div([
         dbc.NavLink([html.I(className="fas fa-boxes"), " Inventory Management"], href="/inventory", active="exact"),
         dbc.NavLink([html.I(className="fas fa-tools"), " Consumables Management"], href="/consumables", active="exact"),
         dbc.NavLink([html.I(className="fas fa-shipping-fast"), " Shipment Tracking"], href="/shipments", active="exact"),
+        dbc.NavLink([html.I(className="fas fa-chart-bar"), " Sales Performance"], href="/sales", active="exact"),
         dbc.NavLink([html.I(className="fas fa-chart-line"), " Inventory Analytics"], href="/analytics", active="exact"),
         dbc.NavLink([html.I(className="fas fa-chart-area"), " Forecasting"], href="/forecasting", active="exact"),
         dbc.NavLink([html.I(className="fas fa-users-cog"), " Suppliers"], href="/suppliers", active="exact"),
@@ -538,6 +546,28 @@ app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     # Centralized store for filter values
     dcc.Store(id='filter-store', data={'category': [], 'drug': []}),
+    # Store to trigger alert display
+    dcc.Store(id='alert-store', data={'type': None, 'message': None}),
+    html.Div(id='filter-div', children=[
+        dcc.Dropdown(
+            id='category-filter',
+            options=[{'label': cat, 'value': cat} for cat in sorted(df_inventory['category'].unique())],
+            multi=True,
+            placeholder="Filter by Category",
+            className="mb-3",
+            style={'borderRadius': '4px'},
+            value=[] # Initialize with empty list
+        ),
+        dcc.Dropdown(
+            id='drug-filter',
+            options=[{'label': drug, 'value': drug} for drug in sorted(df_inventory['drug_name'].unique())],
+            multi=True,
+            placeholder="Filter by Drug",
+            className="mb-4",
+            style={'borderRadius': '4px'},
+            value=[] # Initialize with empty list
+        )
+    ], style={'display': 'none'}),
     html.Div(id='page-content-wrapper')
 ])
 
@@ -559,6 +589,8 @@ def render_page_content(pathname):
         return consumables_management_layout
     elif pathname == '/shipments':
         return shipment_tracking_layout
+    elif pathname == '/sales':
+        return sales_layout
     elif pathname == '/analytics':
         return inventory_analytics_layout
     elif pathname == '/forecasting':
@@ -576,6 +608,8 @@ def render_page_content(pathname):
 # Page Layouts (enhanced for professionalism with updated colors)
 executive_overview_layout = dbc.Card(dbc.CardBody([
     html.H3("Executive Insights", className="text-center mb-4", style={'color': '#0056b3', 'fontWeight': '700', 'letterSpacing': '0.5px'}),
+    # This is the new alert container
+    html.Div(id='alert-container', className="mt-2 mb-4"),
     dbc.Row([
         dbc.Col(dbc.Card([dbc.CardBody([html.I(className="fas fa-dollar-sign kpi-icon"), html.H4(id='kpi-total-value', className="number"), html.P("Total Inventory Value")])], color="primary", outline=True, className='kpi-card', id='kpi-total-value-card'), width=3),
         dbc.Tooltip("Sum of quantity * price per unit.", target='kpi-total-value-card'),
@@ -618,7 +652,8 @@ executive_overview_layout = dbc.Card(dbc.CardBody([
         multi=True,
         placeholder="Filter by Category",
         className="mb-3",
-        style={'borderRadius': '4px'}
+        style={'borderRadius': '4px'},
+        value=[] # Initialize with empty list
     ),
     dcc.Dropdown(
         id='drug-filter',
@@ -626,7 +661,8 @@ executive_overview_layout = dbc.Card(dbc.CardBody([
         multi=True,
         placeholder="Filter by Drug",
         className="mb-4",
-        style={'borderRadius': '4px'}
+        style={'borderRadius': '4px'},
+        value=[] # Initialize with empty list
     ),
     dbc.Row([
         dbc.Col(dcc.Graph(id='inventory-bar', config={'displayModeBar': False}), width=6),
@@ -773,6 +809,34 @@ shipment_tracking_layout = dbc.Card(dbc.CardBody([
     html.Div(id='shipment-output', className='text-success mt-2 text-center')
 ]), className="shadow-sm mb-5 bg-white rounded p-4")
 
+# Sales Dashboard Layout
+sales_layout = dbc.Card(dbc.CardBody([
+    html.H3("Sales Dashboard", className="text-center mb-4", style={'color': '#0056b3', 'fontWeight': '700'}),
+    dbc.Row([
+        dbc.Col(dbc.Card([dbc.CardBody([html.I(className="fas fa-dollar-sign kpi-icon text-success"), html.H4(id='kpi-total-sales', className="number"), html.P("Total Sales Value")])], color="success", outline=True, className='kpi-card', id='kpi-total-sales-card'), width=4),
+        dbc.Col(dbc.Card([dbc.CardBody([html.I(className="fas fa-chart-line kpi-icon text-info"), html.H4(id='kpi-avg-daily-sales', className="number"), html.P("Avg Daily Sales")])], color="info", outline=True, className='kpi-card', id='kpi-avg-daily-sales-card'), width=4),
+        dbc.Col(dbc.Card([dbc.CardBody([html.I(className="fas fa-pills kpi-icon text-primary"), html.H4(id='kpi-pharmacy-sales', className="number"), html.P("Pharmacy Sales Count")])], color="primary", outline=True, className='kpi-card', id='kpi-pharmacy-sales-card'), width=4),
+    ], className="mb-4", justify="center"),
+    dbc.Row([
+        dbc.Col(dcc.Graph(id='sales-by-drug-bar', config={'displayModeBar': False}), width=6),
+        dbc.Col(dcc.Graph(id='sales-by-branch-pie', config={'displayModeBar': False}), width=6),
+    ], className="mb-4"),
+    dbc.Row([
+        dbc.Col(dcc.Graph(id='daily-sales-trend-line', config={'displayModeBar': False}), width=12),
+    ], className="mb-4"),
+    dash_table.DataTable(
+        id='sales-table',
+        columns=[{"name": i.replace('_', ' ').title(), "id": i} for i in df_sales.columns],
+        data=df_sales.to_dict('records'),
+        filter_action='native',
+        sort_action='native',
+        page_size=10,
+        style_table={'overflowX': 'auto', 'borderRadius': '8px'},
+        style_cell={'padding': '10px', 'fontSize': '14px', 'textAlign': 'center', 'borderBottom': '1px solid #dee2e6'},
+        style_header={'backgroundColor': '#e9ecef', 'fontWeight': '600', 'textTransform': 'uppercase', 'letterSpacing': '0.5px', 'color': '#495057'}
+    ),
+]), className="shadow-sm mb-5 bg-white rounded p-4")
+
 inventory_analytics_layout = dbc.Card(dbc.CardBody([
     html.H3("Inventory Analytics & Optimization", className="text-center mb-4", style={'color': '#0056b3', 'fontWeight': '700'}),
     dcc.Dropdown(
@@ -781,7 +845,8 @@ inventory_analytics_layout = dbc.Card(dbc.CardBody([
         multi=True,
         placeholder="Filter by Category",
         className="mb-3",
-        style={'borderRadius': '4px'}
+        style={'borderRadius': '4px'},
+        value=[] # Initialize with empty list
     ),
     dcc.Dropdown(
         id='drug-filter-analytics',
@@ -789,7 +854,8 @@ inventory_analytics_layout = dbc.Card(dbc.CardBody([
         multi=True,
         placeholder="Filter by Drug",
         className="mb-4",
-        style={'borderRadius': '4px'}
+        style={'borderRadius': '4px'},
+        value=[] # Initialize with empty list
     ),
     dbc.Row([
         dbc.Col(html.H4("Economic Order Quantity (EOQ)", className="text-center mt-4", style={'color': '#0056b3', 'fontWeight': '600'}), width=12),
@@ -1128,6 +1194,12 @@ def update_greeting(data):
      Input('ai-insights-button', 'n_clicks'), Input('interval-update', 'n_intervals')]
 )
 def update_executive_kpis(categories, drugs, n_clicks, n_intervals):
+    # This check is crucial for handling the ReferenceError.
+    # It ensures the callback only proceeds if the component is available.
+    if dash.callback_context.triggered_id and dash.callback_context.triggered_id not in ['ai-insights-button', 'interval-update']:
+        if dash.callback_context.triggered_id not in ['category-filter', 'drug-filter']:
+            raise PreventUpdate
+
     df_inv_filtered = df_inventory.copy()
     if categories: df_inv_filtered = df_inv_filtered[df_inv_filtered['category'].isin(categories)]
     if drugs: df_inv_filtered = df_inv_filtered[df_inv_filtered['drug_name'].isin(drugs)]
@@ -1162,6 +1234,11 @@ def update_executive_kpis(categories, drugs, n_clicks, n_intervals):
     [Input('category-filter', 'value'), Input('drug-filter', 'value'), Input('theme-toggle', 'value'), Input('interval-update', 'n_intervals')]
 )
 def update_executive_charts(categories, drugs, theme, n_intervals):
+    # This check is crucial for handling the ReferenceError.
+    if dash.callback_context.triggered_id and dash.callback_context.triggered_id not in ['theme-toggle', 'interval-update']:
+        if dash.callback_context.triggered_id not in ['category-filter', 'drug-filter']:
+            raise PreventUpdate
+
     df_inv = df_inventory.copy()
     if categories: df_inv = df_inv[df_inv['category'].isin(categories)]
     if drugs: df_inv = df_inv[df_inv['drug_name'].isin(drugs)]
@@ -1223,6 +1300,11 @@ def update_executive_charts(categories, drugs, theme, n_intervals):
     [Input('category-filter', 'value'), Input('drug-filter', 'value'), Input('theme-toggle', 'value')]
 )
 def update_executive_trends(categories, drugs, theme):
+    # This check is crucial for handling the ReferenceError.
+    if dash.callback_context.triggered_id and dash.callback_context.triggered_id not in ['theme-toggle']:
+        if dash.callback_context.triggered_id not in ['category-filter', 'drug-filter']:
+            raise PreventUpdate
+    
     template = 'plotly_dark' if theme == 'Dark' else 'plotly_white'
     df_inv = df_inventory.copy()
     if categories: df_inv = df_inv[df_inv['category'].isin(categories)]
@@ -1259,6 +1341,48 @@ def update_executive_trends(categories, drugs, theme):
     
     return turnover_trend, stockout_trend, category_heatmap
 
+# Callback to update Sales KPIs
+@callback(
+    [Output('kpi-total-sales', 'children'),
+     Output('kpi-avg-daily-sales', 'children'),
+     Output('kpi-pharmacy-sales', 'children')],
+    Input('interval-update', 'n_intervals')
+)
+def update_sales_kpis(n):
+    total_sales = df_sales['sale_amount'].sum()
+    avg_daily = df_sales.groupby('sale_date')['sale_amount'].sum().mean()
+    pharmacy_sales = df_sales[df_sales['customer_type'] == 'Pharmacy'].shape[0]
+    return f"${total_sales:,.2f}", f"${avg_daily:,.2f}", pharmacy_sales
+
+# Callback to update Sales Charts
+@callback(
+    [Output('sales-by-drug-bar', 'figure'),
+     Output('sales-by-branch-pie', 'figure'),
+     Output('daily-sales-trend-line', 'figure')],
+    Input('theme-toggle', 'value')
+)
+def update_sales_charts(theme):
+    template = 'plotly_dark' if theme == 'Dark' else 'plotly_white'
+    
+    # Sales by Drug Bar Chart
+    sales_by_drug = df_sales.groupby('drug_name')['sale_amount'].sum().reset_index().sort_values('sale_amount', ascending=False)
+    sales_by_drug_fig = px.bar(sales_by_drug, x='drug_name', y='sale_amount', title='Total Sales by Drug',
+                               color='sale_amount', color_continuous_scale='Viridis', template=template)
+    sales_by_drug_fig.update_layout(font=dict(family="Arial", size=12), title_font_size=18)
+
+    # Sales by Branch Pie Chart
+    sales_by_branch = df_sales.groupby('branch')['sale_amount'].sum().reset_index()
+    sales_by_branch_fig = px.pie(sales_by_branch, values='sale_amount', names='branch', title='Sales Distribution by Branch',
+                                 color_discrete_sequence=px.colors.qualitative.Pastel, template=template)
+    sales_by_branch_fig.update_layout(font=dict(family="Arial", size=12), title_font_size=18)
+
+    # Daily Sales Trend Line Chart
+    daily_sales = df_sales.groupby('sale_date')['sale_amount'].sum().reset_index()
+    daily_sales_trend_fig = px.line(daily_sales, x='sale_date', y='sale_amount', title='Daily Sales Trend',
+                                    template=template)
+    daily_sales_trend_fig.update_layout(font=dict(family="Arial", size=12), title_font_size=18)
+    
+    return sales_by_drug_fig, sales_by_branch_fig, daily_sales_trend_fig
 
 # Update Inventory Analytics Charts and Data (MODIFIED)
 @callback(
@@ -1349,6 +1473,7 @@ def update_analytics_charts(change_percent, theme, n_intervals, categories, drug
 
     return (eoq_data, eoq_bar_chart, stock_age_box, turnover_bar, dead_stock_bar, dead_stock_table_data, aging_heatmap_analytics, service_level_bar, sales_trend_fig, what_if_output, aging_table_data)
 
+
 # THIS IS THE NEW CALLBACK TO FIX THE ERROR
 # We create a new, separate callback specifically for the advanced metrics table
 # that triggers when the user navigates to the Inventory Management page.
@@ -1379,7 +1504,7 @@ def update_advanced_metrics_table_on_page_change(pathname, filter_data):
         metrics_data['carrying_cost_percent'] = metrics_data['carrying_cost_percent'].round(1)
         
         return metrics_data.to_dict('records')
-    raise PreventUpdate
+    return [] # Return an empty list if not on the correct page
 
 
 # Update Health Score and Advanced Metrics (MODIFIED)
@@ -1389,6 +1514,11 @@ def update_advanced_metrics_table_on_page_change(pathname, filter_data):
     [Input('category-filter', 'value'), Input('drug-filter', 'value'), Input('theme-toggle', 'value')]
 )
 def update_health_score(categories, drugs, theme):
+    # This check is crucial for handling the ReferenceError.
+    if dash.callback_context.triggered_id and dash.callback_context.triggered_id not in ['theme-toggle']:
+        if dash.callback_context.triggered_id not in ['category-filter', 'drug-filter']:
+            raise PreventUpdate
+    
     template = 'plotly_dark' if theme == 'Dark' else 'plotly_white'
     df_inv = df_inventory.copy()
     if categories: df_inv = df_inv[df_inv['category'].isin(categories)]
@@ -1934,19 +2064,94 @@ def export_analytics_pdf(n, eoq_data, dead_stock_data, aging_data, eoq_fig, dead
             return f'Error exporting PDF: {e}'
     return ''
 
+
+# Helper function to generate figures
+def generate_figures(df_inv, df_history, theme):
+    if df_inv.empty:
+        empty_fig = go.Figure()
+        empty_fig.update_layout(title='No Data Available', showlegend=False)
+        return [empty_fig] * 9
+    
+    template = 'plotly_dark' if theme == 'Dark' else 'plotly_white'
+
+    # Figure 1: Inventory Levels
+    inventory_bar = px.bar(df_inv.sort_values('quantity'), y='drug_name', x='quantity', color='expired', orientation='h',
+                           title='Inventory Levels (Red: Expired)', color_discrete_map={True: '#dc3545', False: '#28a745'},
+                           hover_data=['expiration_date', 'total_value', 'supplier', 'reorder_alert', 'abc_category'], template=template)
+    inventory_bar.update_layout(font=dict(family="Arial", size=12), title_font_size=18)
+
+    # Figure 2: Inventory Value by Category
+    category_pie = px.pie(df_inv, values='total_value', names='category', title='Inventory Value by Category',
+                          color_discrete_sequence=px.colors.qualitative.Pastel, template=template)
+    category_pie.update_layout(font=dict(family="Arial", size=12), title_font_size=18)
+
+    # Figure 3: Inventory Value Treemap
+    value_treemap = px.treemap(df_inv, path=['category', 'drug_name'], values='total_value',
+                               title='Inventory Value Treemap', template=template)
+    value_treemap.update_layout(font=dict(family="Arial", size=12), title_font_size=18)
+
+    # Figure 4: ABC Analysis
+    abc_pie = px.pie(df_inv, values='total_value', names='abc_category', title='ABC Analysis by Value',
+                     color_discrete_sequence=px.colors.qualitative.Set1, template=template)
+    abc_pie.update_layout(font=dict(family="Arial", size=12), title_font_size=18)
+
+    # Figure 5: Reorder Point vs Current Quantity
+    reorder_vs_quantity_bar = go.Figure()
+    reorder_vs_quantity_bar.add_trace(go.Bar(x=df_inv['drug_name'], y=df_inv['quantity'], name='Current Quantity', marker_color='#007bff'))
+    reorder_vs_quantity_bar.add_trace(go.Scatter(x=df_inv['drug_name'], y=df_inv['reorder_point'], name='Reorder Point', mode='lines', line=dict(color='red', dash='dash')))
+    reorder_vs_quantity_bar.update_layout(title='Reorder Point vs Current Quantity', template=template, barmode='group', font=dict(family="Arial", size=12), title_font_size=18)
+
+    # Figure 6: Stockout Risk by Value
+    stockout_risk_pie = px.pie(df_inv, values='total_value', names='stockout_risk', title='Stockout Risk by Value',
+                               color_discrete_sequence=px.colors.qualitative.Set1, template=template)
+    stockout_risk_pie.update_layout(font=dict(family="Arial", size=12), title_font_size=18)
+                                      
+    # Figure 7: Inventory Aging by Category
+    aging_heatmap_data = df_inv.pivot_table(index='category', columns='aging_bucket', values='quantity', aggfunc='sum').fillna(0)
+    aging_heatmap = px.imshow(aging_heatmap_data, title='Inventory Aging by Category', template=template)
+    aging_heatmap.update_layout(font=dict(family="Arial", size=12), title_font_size=18)
+    
+    # Figure 8: Demand Volatility vs. Stock Level
+    demand_scatter = px.scatter(df_inv, x='demand_volatility', y='quantity', color='stockout_risk',
+                                size='total_value', hover_data=['drug_name'], title='Demand Volatility vs. Stock Level',
+                                template=template, color_discrete_map={'High Risk': '#dc3545', 'Low Risk': '#28a745'})
+    demand_scatter.update_layout(font=dict(family="Arial", size=12), title_font_size=18)
+    
+    # Figure 9: Carrying Cost by Category
+    carrying_cost_bar = px.bar(df_inv.groupby('category', observed=True)['carrying_cost'].sum().reset_index(),
+                               x='category', y='carrying_cost', title='Carrying Cost by Category',
+                               color='carrying_cost', color_continuous_scale='Blues', template=template)
+    carrying_cost_bar.update_layout(font=dict(family="Arial", size=12), title_font_size=18)
+
+    return (inventory_bar, category_pie, value_treemap, abc_pie, reorder_vs_quantity_bar, stockout_risk_pie,
+            aging_heatmap, demand_scatter, carrying_cost_bar)
+
+
+# Updated callback to fix the alert issue
 @callback(
-    Output('alerts', 'is_open'),
+    Output('alert-store', 'data'),
     Input('export-report', 'n_clicks'),
     [State('login-status', 'data'),
-     State('inventory-bar', 'figure'), State('category-pie', 'figure'), State('value-treemap', 'figure'),
-     State('abc-pie', 'figure'), State('reorder-vs-quantity-bar', 'figure'), State('stockout-risk-pie', 'figure'),
-     State('aging-heatmap', 'figure'), State('demand-scatter', 'figure'), State('carrying-cost-bar', 'figure')]
+     State('category-filter', 'value'), State('drug-filter', 'value'),
+     State('theme-toggle', 'value')],
+    prevent_initial_call=True
 )
-def export_full_report(n, login_status, inv_bar_fig, cat_pie_fig, val_treemap_fig, abc_pie_fig, reorder_fig, risk_pie_fig, aging_fig, demand_fig, carrying_fig):
-    if not n or not login_status.get('logged_in') or login_status['role'] not in ['admin']:
+def export_full_report(n, login_status, categories, drugs, theme):
+    if not n:
         raise PreventUpdate
+
+    if not login_status.get('logged_in') or login_status['role'] not in ['admin']:
+        return {'type': 'danger', 'message': 'Permission denied: Only admins can export the full report.'}
     
     try:
+        # Filter data based on current state of dropdowns
+        df_inv_filtered = df_inventory.copy()
+        if categories: df_inv_filtered = df_inv_filtered[df_inv_filtered['category'].isin(categories)]
+        if drugs: df_inv_filtered = df_inv_filtered[df_inv_filtered['drug_name'].isin(drugs)]
+
+        # Generate figures dynamically within the callback
+        inv_bar_fig, cat_pie_fig, val_treemap_fig, abc_pie_fig, reorder_fig, risk_pie_fig, aging_fig, demand_fig, carrying_fig = generate_figures(df_inv_filtered, df_history, theme)
+        
         figs = [
             (inv_bar_fig, "Inventory Levels"),
             (cat_pie_fig, "Inventory Value by Category"),
@@ -1985,11 +2190,22 @@ def export_full_report(n, login_status, inv_bar_fig, cat_pie_fig, val_treemap_fi
         audit_log.loc[len(audit_log)] = [datetime.now(), login_status['username'], 'Export Full Report', f'Exported to {pdf_file}']
         audit_log.to_csv(AUDIT_PATH, index=False)
         logging.info(f"User {login_status['username']} exported full report")
-        return True
+        return {'type': 'success', 'message': f'Full report exported successfully to {pdf_file}'}
     except Exception as e:
         logging.error(f"Error exporting full report: {e}")
         print(f"ALERT: Error exporting full report: {e}")
-        return False
+        return {'type': 'danger', 'message': f'Error exporting full report: {e}'}
+
+# New callback to display alerts from the store
+@callback(
+    Output('alert-container', 'children'),
+    Input('alert-store', 'data'),
+    prevent_initial_call=True
+)
+def display_alert(data):
+    if data and data['message']:
+        return dbc.Alert(data['message'], color=data['type'], dismissable=True, duration=5000)
+    return []
 
 
 if __name__ == '__main__':
